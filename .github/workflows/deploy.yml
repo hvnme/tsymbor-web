@@ -1,4 +1,4 @@
-name: Deploy to FTP
+name: Deploy to Server
 
 on:
   push:
@@ -23,12 +23,13 @@ jobs:
     - name: Build project
       run: npm run build
     
-    - name: Deploy to FTP
-      uses: SamKirkland/Ftp-Deploy-Action@v4.3.5
+    - name: Deploy to Server via SFTP
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.6
       with:
         server: ${{ secrets.FTP_SERVER }}
         port: 22
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/
-        server-dir: /var/www/tsymbor.zinabot.online/html/
+        local_path: './dist/*'
+        remote_path: '/var/www/tsymbor.zinabot.online/html/'
+        delete_remote_files: true
