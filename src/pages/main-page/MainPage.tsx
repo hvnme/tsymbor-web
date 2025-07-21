@@ -250,13 +250,11 @@ const StoreApp = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 via-yellow-700 to-orange-600 fixed inset-0 flex items-center justify-center">
-        <Loader2 className="animate-spin w-10 h-10 text-white" />
-        <div className="text-white text-lg ml-4">Завантаження...</div>
+        <Loader2 className="animate-spin w-15 h-15 text-white" />
       </div>
     );
   }
 
-  // Если пользователь не найден в API - показываем диалог авторизации
   if (isUserNotFound) {
     return (
       <>
@@ -341,7 +339,7 @@ const StoreApp = () => {
 
           {/* Promotions с данными из API */}
           <div key="promotions">
-            <PromotionsCarousel promotions={promotions} />
+            <PromotionsCarousel promotions={[...promotions].reverse()} />
           </div>
 
           {/* Rules Button */}
@@ -413,6 +411,19 @@ const StoreApp = () => {
           }}
         />
 
+        <GlowEffect
+          className="rounded-xl"
+          colors={[
+            "#ffffffff",
+            "rgba(220, 200, 255, 1)",
+            "#ffd182ff",
+            "#fd3636ff",
+          ]}
+          mode="rotate"
+          blur="strong"
+          scale={1.2}
+          duration={7}
+        />
         <motion.button
           onClick={() => {
             impactOccurred("medium");
@@ -420,7 +431,7 @@ const StoreApp = () => {
           }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="relative z-20 border rounded-xl px-6 py-4 transition-all duration-300 flex items-center bg-orange-500/25 backdrop-blur-sm border-white/10 shadow-2xl shadow-black/30"
+          className="relative z-20 border rounded-xl px-6 py-4 transition-all duration-300 flex items-center bg-orange-700/70 backdrop-blur-sm border-white/70 shadow-2xl shadow-black/30"
         >
           <span className="font-bold text-white">Знайдеш його?</span>
         </motion.button>

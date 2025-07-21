@@ -24,32 +24,7 @@ interface PromotionsCarouselProps {
 }
 
 const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
-  promotions = [
-    {
-      id: 1,
-      startDate: "2025-01-15",
-      endDate: "2025-02-28",
-      image:
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=400&fit=crop",
-      text: "Знижка 25% на всі страви з меню! Насолоджуйтесь найкращими стравами за вигідною ціною",
-    },
-    {
-      id: 2,
-      startDate: "2025-01-20",
-      endDate: "2025-03-15",
-      image:
-        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=400&fit=crop",
-      text: "Безкоштовний десерт до кожного головного блюда в вихідні дні",
-    },
-    {
-      id: 3,
-      startDate: "2025-02-01",
-      endDate: "2025-02-14",
-      image:
-        "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&h=400&fit=crop",
-      text: "Спеціальне меню на День Святого Валентина для закоханих пар",
-    },
-  ],
+  promotions = [], // Default to an empty array if no promotions are provided
 }) => {
   const { webApp } = useTelegram();
   const formatDate = (dateString: string) => {
@@ -58,14 +33,6 @@ const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
       day: "numeric",
       month: "long",
     });
-  };
-
-  const getPromotionTitle = (text: string) => {
-    const words = text.split(" ");
-    if (words.length > 8) {
-      return words.slice(0, 8).join(" ") + "...";
-    }
-    return text;
   };
 
   return (
@@ -77,7 +44,7 @@ const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
       <div className="relative">
         <div className="flex gap-3 overflow-x-auto px-2 pb-2 scrollbar-hide snap-x snap-mandatory">
           {promotions.map((promo, index) => {
-            const title = getPromotionTitle(promo.text);
+            const title = promo.text;
 
             return (
               <Dialog key={promo.id}>
@@ -93,23 +60,18 @@ const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
                       webApp?.HapticFeedback?.impactOccurred("light")
                     }
                   >
-                    <Card className="bg-black/15 backdrop-blur-md border border-white/5 shadow-xl overflow-hidden">
-                      <div className="relative h-48 overflow-hidden">
+                    <Card className="bg-black/15 backdrop-blur-md border border-white/5 shadow-md overflow-hidden">
+                      <div className="relative overflow-hidden">
                         <img
                           src={promo.image}
                           alt="Акція"
                           className="w-full h-full object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src =
-                              "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial, sans-serif' font-size='16' fill='%23374151' text-anchor='middle' dy='.3em'%3EЗображення недоступне%3C/text%3E%3C/svg%3E";
-                          }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        <div className="absolute inset-0 " />
                       </div>
 
                       <CardContent className="p-4">
-                        <h3 className="font-bold text-lg text-white mb-3 line-clamp-2 leading-tight">
+                        <h3 className="font-semibold text-lg text-white mb-3  leading-tight">
                           {title}
                         </h3>
 
@@ -141,7 +103,7 @@ const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
                     </div>
 
                     <div className="flex-shrink-0 p-3 space-y-4">
-                      <h3 className="text-xl font-bold text-white">
+                      <h3 className="text-md font-semibold text-white">
                         {promo.text}
                       </h3>
 
