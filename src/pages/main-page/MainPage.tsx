@@ -14,6 +14,7 @@ import { ScanningDialogs } from "./components/ScanningDialogs";
 import { RulesButton } from "./components/RulesButton";
 import { AuthRequiredDialog } from "./components/AuthRequiredDialog";
 import { tsymborApi, type UserDto, type PromotionDTO } from "@/api/tsymborApi";
+import labubuFace from "@/assets/labubu-face.svg";
 
 const StoreApp = () => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -383,7 +384,7 @@ const StoreApp = () => {
         }}
       >
         <motion.img
-          src="/src/assets/labubu-face.svg"
+          src={labubuFace}
           alt="Labubu"
           className="absolute w-16 h-16 -top-10 -right-4 z-40 "
           initial={{ scale: 0, rotate: 45 }}
@@ -421,7 +422,7 @@ const StoreApp = () => {
           whileTap={{ scale: 0.95 }}
           className="relative z-20 border rounded-xl px-8 py-4 transition-all duration-300 flex items-center bg-orange-500/25 backdrop-blur-sm border-white/10 shadow-2xl shadow-black/30"
         >
-          <span className="font-semibold text-white">Знайдеш його?</span>
+          <span className="font-bold text-white">Знайдеш його?</span>
         </motion.button>
       </motion.div>
     </div>
