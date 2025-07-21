@@ -21,9 +21,9 @@ export function FAQ() {
         <CardContent className="p-3">
           <Accordion className="flex w-full flex-col">
             <AccordionItem value="first" className="py-3">
-              <AccordionTrigger className="w-full">
+              <AccordionTrigger className="w-full" value="first">
                 <div
-                  className="flex items-center"
+                  className="flex items-center w-full"
                   onClick={handleAccordionClick}
                 >
                   <ChevronRight className="h-5 w-5 duration-200 group-data-expanded:rotate-90 text-white" />
@@ -32,7 +32,10 @@ export function FAQ() {
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="border bg-black/30 border-rounded-xl border-white/12 rounded-2xl text-white font-strong mb-2">
+              <AccordionContent
+                className="border bg-black/30 border-rounded-xl border-white/12 rounded-2xl text-white font-strong mb-2"
+                value="first"
+              >
                 <div className="pl-3 pr-3 py-3 space-y-3">
                   <p>
                     <strong>💳 Отримуй 0,5% на бонусний рахунок</strong> від
@@ -83,9 +86,9 @@ export function FAQ() {
             </AccordionItem>
 
             <AccordionItem value="second" className="py-3">
-              <AccordionTrigger className="w-full">
+              <AccordionTrigger className="w-full" value="second">
                 <div
-                  className="flex items-center"
+                  className="flex items-center w-full"
                   onClick={handleAccordionClick}
                 >
                   <ChevronRight className="h-5 w-5 duration-200 group-data-expanded:rotate-90 text-white" />
@@ -94,7 +97,10 @@ export function FAQ() {
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="pl-3 pr-3 border bg-black/20 border-rounded-xl border-white/12 rounded-2xl text-white font-strong mt-2">
+              <AccordionContent
+                className="pl-3 pr-3 border bg-black/20 border-rounded-xl border-white/12 rounded-2xl text-white font-strong mt-2"
+                value="second"
+              >
                 <div className="py-3 space-y-4">
                   <p>
                     <strong>🔍 Пред'явіть Штрих-Код при Оплаті</strong>
