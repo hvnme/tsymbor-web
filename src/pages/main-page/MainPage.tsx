@@ -420,7 +420,7 @@ const StoreApp = () => {
           }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="relative z-20 border rounded-xl px-8 py-4 transition-all duration-300 flex items-center bg-orange-500/25 backdrop-blur-sm border-white/10 shadow-2xl shadow-black/30"
+          className="relative z-20 border rounded-xl px-6 py-4 transition-all duration-300 flex items-center bg-orange-500/25 backdrop-blur-sm border-white/10 shadow-2xl shadow-black/30"
         >
           <span className="font-bold text-white">Знайдеш його?</span>
         </motion.button>
