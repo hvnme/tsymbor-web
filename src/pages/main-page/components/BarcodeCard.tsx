@@ -150,7 +150,7 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
                 </div>
                 <div className="font-extrabold text-xl text-white flex items-center justify-center gap-1">
                   <span>{vtmAmount || 0}</span>
-                  <span className="font-medium text-sm">шансів</span>
+                  <span className="font-medium text-sm">чеків</span>
                 </div>
               </motion.div>
 
