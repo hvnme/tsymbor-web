@@ -11,7 +11,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ customerName, photoUrl }) => {
     const hour = new Date().getHours();
     if (hour < 12) return "Доброго ранку";
     if (hour < 18) return "Добрий день";
-    return "Добрий вечір";
+    return "Добрий вечір ";
   };
 
   return (
@@ -20,7 +20,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ customerName, photoUrl }) => {
       isRevese={true}
       springOptions={{ stiffness: 200, damping: 30 }}
     >
-      <Card className="bg-black/12 backdrop-blur-md border shadow-inner border-white/5 shadow-xl  mt-18">
+      <Card className="bg-black/12і backdrop-blur-md border shadow-inner border-white/5 shadow-xl  mt-18">
         <CardContent className="p-3">
           <div className="flex items-center space-x-3">
             <div className="relative">

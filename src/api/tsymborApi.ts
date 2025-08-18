@@ -1,10 +1,12 @@
 // tsymborApi.ts
-const API_BASE_URL = 'https://api.tsymbor.zinabot.online/api/webapp';
+const API_BASE_URL = "https://api.tsymbor.zinabot.online/api/webapp";
 
 // Интерфейсы для типизации
 interface UserDto {
   barcode: string;
   balance: number;
+  labubuAmount: number;
+  vtmAmount: number;
   freeCoffeeCount: number;
   coffeeTillFree: number;
 }
@@ -45,17 +47,17 @@ class TsymborApi {
   async getUserInfo(chatId: number): Promise<UserDto | null> {
     try {
       const response = await fetch(`${API_BASE_URL}/user/${chatId}`);
-      
+
       if (!response.ok) {
         if (response.status === 404) {
           return null;
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       return await response.json();
     } catch (error) {
-      console.error('Error fetching user info:', error);
+      console.error("Error fetching user info:", error);
       throw error;
     }
   }
@@ -66,14 +68,14 @@ class TsymborApi {
   async getActivePromotions(): Promise<PromotionDTO[]> {
     try {
       const response = await fetch(`${API_BASE_URL}/promotions`);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       return await response.json();
     } catch (error) {
-      console.error('Error fetching promotions:', error);
+      console.error("Error fetching promotions:", error);
       throw error;
     }
   }
@@ -81,36 +83,39 @@ class TsymborApi {
   /**
    * Активировать QR-код Labubu
    */
-  async activateLabubu(chatId: number, qrValue: string): Promise<LabubuActivationResponse> {
+  async activateLabubu(
+    chatId: number,
+    qrValue: string
+  ): Promise<LabubuActivationResponse> {
     try {
       const params = new URLSearchParams({
         chatId: chatId.toString(),
-        value: qrValue
+        value: qrValue,
       });
 
       const response = await fetch(`${API_BASE_URL}/labubu/activate`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: params
+        body: params,
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         return {
           success: false,
-          error: data.error || 'Помилка активації QR-коду'
+          error: data.error || "Помилка активації QR-коду",
         };
       }
 
       return data;
     } catch (error) {
-      console.error('Error activating Labubu QR:', error);
+      console.error("Error activating Labubu QR:", error);
       return {
         success: false,
-        error: 'Помилка мережі'
+        error: "Помилка мережі",
       };
     }
   }
@@ -121,29 +126,28 @@ class TsymborApi {
   async checkQRStatus(qrValue: string): Promise<LabubuStatusResponse> {
     try {
       const params = new URLSearchParams({
-        value: qrValue
+        value: qrValue,
       });
 
       const response = await fetch(`${API_BASE_URL}/labubu/check?${params}`);
       const data = await response.json();
-      
+
       if (!response.ok) {
         return {
           success: false,
-          error: data.error || 'Помилка перевірки QR-коду'
+          error: data.error || "Помилка перевірки QR-коду",
         };
       }
 
       return data;
     } catch (error) {
-      console.error('Error checking QR status:', error);
+      console.error("Error checking QR status:", error);
       return {
         success: false,
-        error: 'Помилка мережі'
+        error: "Помилка мережі",
       };
     }
   }
-
 }
 
 export const tsymborApi = new TsymborApi();
@@ -153,5 +157,5 @@ export type {
   PromotionDTO,
   LabubuActivationResponse,
   LabubuStatusResponse,
-  LabubuStatsResponse
+  LabubuStatsResponse,
 };

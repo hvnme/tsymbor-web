@@ -29,7 +29,7 @@ const CoffeeProgress: React.FC<CoffeeProgressProps> = ({
               </span>
             </div>
             <Badge className="bg-black/15 text-white border-white/5 font-semibold">
-              {10 - coffeeTillFree} / {maxCoffee}
+              {10 - coffeeTillFree + 1} / {maxCoffee}
             </Badge>
           </div>
 

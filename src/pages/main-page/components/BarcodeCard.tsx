@@ -11,6 +11,8 @@ import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 interface BarcodeCardProps {
   balance: number;
   freeCoffeeCount: number;
+  vtmAmount: number;
+  labubuAmount: number;
   barcodeValue: string;
   coffeeTillFree: number;
 }
@@ -18,6 +20,8 @@ interface BarcodeCardProps {
 const BarcodeCard: React.FC<BarcodeCardProps> = ({
   barcodeValue,
   balance,
+  vtmAmount,
+  labubuAmount,
   freeCoffeeCount,
   coffeeTillFree,
 }) => {
@@ -127,6 +131,46 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
                 <div className="font-extrabold text-xl text-white flex items-center justify-center gap-1">
                   <span>{freeCoffeeCount || 0}</span>
                   <span className="font-medium text-sm">шт</span>
+                </div>
+              </motion.div>
+
+              {/* vtm */}
+              <motion.div
+                className="bg-black/10 rounded-xl p-3 border border-white/5 text-center shadow-xl cursor-pointer"
+                whileHover={{ scale: 1.02, y: -3 }}
+                whileTap={{ scale: 0.98 }}
+                onTap={() => impactOccurred("light")}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Wallet className="w-4 h-4 text-white/90" />
+                  <span className="text-sm text-white/40 font-medium">
+                    Акція "Lays"
+                  </span>
+                </div>
+                <div className="font-extrabold text-xl text-white">
+                  <span>{vtmAmount || 0}</span>
+                  <span className="font-medium text-sm">чеків</span>
+                </div>
+              </motion.div>
+
+              {/* labubu */}
+              <motion.div
+                className="bg-black/10 rounded-xl p-3 border border-white/5 text-center shadow-xl cursor-pointer"
+                whileHover={{ scale: 1.02, y: -3 }}
+                whileTap={{ scale: 0.98 }}
+                onTap={() => impactOccurred("light")}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Coffee className="w-4 h-4 text-white/90" />
+                  <span className="text-sm text-white/40 font-medium">
+                    Акція "Labubu"
+                  </span>
+                </div>
+                <div className="font-extrabold text-xl text-white flex items-center justify-center gap-1">
+                  <span>{labubuAmount || 0}</span>
+                  <span className="font-medium text-sm">шансів</span>
                 </div>
               </motion.div>
             </motion.div>
