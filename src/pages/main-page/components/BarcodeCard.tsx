@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Barcode from "react-barcode";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Wallet, Coffee } from "lucide-react";
+import { Wallet, Coffee, Dog, Apple } from "lucide-react";
 import { Tilt } from "@/components/ui/tilt";
 import CoffeeProgress from "./CoffeeProgress";
 import { GlowEffect } from "@/components/ui/glow-effect";
@@ -143,14 +143,14 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               >
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Wallet className="w-4 h-4 text-white/90" />
+                  <Apple className="w-4 h-4 text-white/90" />
                   <span className="text-sm text-white/40 font-medium">
                     Акція "Lays"
                   </span>
                 </div>
-                <div className="font-extrabold text-xl text-white">
+                <div className="font-extrabold text-xl text-white flex items-center justify-center gap-1">
                   <span>{vtmAmount || 0}</span>
-                  <span className="font-medium text-sm">чеків</span>
+                  <span className="font-medium text-sm">шансів</span>
                 </div>
               </motion.div>
 
@@ -163,7 +163,7 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               >
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Coffee className="w-4 h-4 text-white/90" />
+                  <Dog className="w-4 h-4 text-white/90" />
                   <span className="text-sm text-white/40 font-medium">
                     Акція "Labubu"
                   </span>
