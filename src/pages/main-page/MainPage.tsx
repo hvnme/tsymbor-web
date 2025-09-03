@@ -329,7 +329,7 @@ const StoreApp = () => {
               balance={userInfo?.balance || 0}
               freeCoffeeCount={userInfo?.freeCoffeeCount || 0}
               vtmAmount={userInfo?.vtmAmount || 0}
-              labubuAmount={userInfo?.labubuAmount || 0}
+              labubuAmount={userInfo?.hellAmount || 0}
               barcodeValue={userInfo?.barcode || ""}
               coffeeTillFree={userInfo?.coffeeTillFree || 0}
             />

@@ -5,7 +5,7 @@ const API_BASE_URL = "https://api.tsymbor.zinabot.online/api/webapp";
 interface UserDto {
   barcode: string;
   balance: number;
-  labubuAmount: number;
+  hellAmount: number;
   vtmAmount: number;
   freeCoffeeCount: number;
   coffeeTillFree: number;
