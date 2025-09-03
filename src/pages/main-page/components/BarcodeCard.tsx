@@ -165,7 +165,7 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <CupSoda className="w-4 h-4 text-white/90" />
                   <span className="text-sm text-white/40 font-medium">
-                    Акція "Labubu"
+                    Акція "Hell & XIXO"
                   </span>
                 </div>
                 <div className="font-extrabold text-xl text-white flex items-center justify-center gap-1">
