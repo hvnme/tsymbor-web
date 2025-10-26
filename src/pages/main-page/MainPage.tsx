@@ -38,7 +38,6 @@ const StoreApp = () => {
   const photoUrl = user?.photo_url;
   const chatId = user?.id;
 
-  // Отладочная информация
   console.log("Telegram ready:", isReady);
   console.log("Telegram user:", user);
   console.log("Chat ID:", chatId);
@@ -328,8 +327,6 @@ const StoreApp = () => {
             <BarcodeCard
               balance={userInfo?.balance || 0}
               freeCoffeeCount={userInfo?.freeCoffeeCount || 0}
-              vtmAmount={userInfo?.vtmAmount || 0}
-              labubuAmount={userInfo?.hellAmount || 0}
               barcodeValue={userInfo?.barcode || ""}
               coffeeTillFree={userInfo?.coffeeTillFree || 0}
             />

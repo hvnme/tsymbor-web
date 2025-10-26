@@ -1,12 +1,8 @@
-// tsymborApi.ts
-const API_BASE_URL = "https://api.tsymbor.zinabot.online/api/webapp";
+const API_BASE_URL = "https://tsymbor.zina24.shop/api/webapp";
 
-// Интерфейсы для типизации
 interface UserDto {
   barcode: string;
   balance: number;
-  hellAmount: number;
-  vtmAmount: number;
   freeCoffeeCount: number;
   coffeeTillFree: number;
 }
