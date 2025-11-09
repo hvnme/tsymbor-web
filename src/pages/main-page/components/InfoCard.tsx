@@ -20,11 +20,11 @@ const InfoCard: React.FC<InfoCardProps> = ({ customerName, photoUrl }) => {
       isRevese={true}
       springOptions={{ stiffness: 200, damping: 30 }}
     >
-      <Card className="bg-black/12і backdrop-blur-md border shadow-inner border-white/5 shadow-xl  mt-18">
+      <Card className="bg-black/30 mx-3 backdrop-blur-3xl border border-white/15 shadow-xl ">
         <CardContent className="p-3">
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="w-14 h-14 bg-black/20 rounded-xl flex items-center justify-center text-white  text-xl shadow-inner border border-white/5 overflow-hidden">
+              <div className="w-14 h-14 bg-black/20 rounded-xl flex items-center justify-center text-white  text-xl shadow-inner border border-white/15 overflow-hidden">
                 {photoUrl ? (
                   <img
                     src={photoUrl}
@@ -40,7 +40,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ customerName, photoUrl }) => {
               <h2 className="font-semibold text-lg text-white">
                 {getGreeting()}, {customerName || "Користувач"}!
               </h2>
-              <p className="font-medium text-sm text-white/50 mt-0">
+              <p className="font-medium text-sm text-white/60 mt-0">
                 Учасник програми лояльності
               </p>
             </div>

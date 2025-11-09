@@ -15,6 +15,16 @@ interface PromotionDTO {
   text: string;
 }
 
+interface PromotionCounterDTO {
+  id: number;
+  nameCounter: string;
+  codeCounter: number;
+  active: boolean;
+  startAt: string;
+  endAt: string;
+  count?: number;
+}
+
 interface LabubuActivationResponse {
   success: boolean;
   number?: number;
@@ -72,6 +82,24 @@ class TsymborApi {
       return await response.json();
     } catch (error) {
       console.error("Error fetching promotions:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Получить активные счетчики промоций
+   */
+  async getActivePromotionCounters(): Promise<PromotionCounterDTO[]> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/promotion-counters/active`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching promotion counters:", error);
       throw error;
     }
   }
@@ -151,6 +179,7 @@ export const tsymborApi = new TsymborApi();
 export type {
   UserDto,
   PromotionDTO,
+  PromotionCounterDTO,
   LabubuActivationResponse,
   LabubuStatusResponse,
   LabubuStatsResponse,

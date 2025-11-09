@@ -1,5 +1,6 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useTelegram } from "@/hooks/useTelegram";
+import { Icon } from "@iconify/react";
 
 interface AuthRequiredDialogProps {
   open: boolean;
@@ -21,7 +22,7 @@ export function AuthRequiredDialog({ open }: AuthRequiredDialogProps) {
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent className="bg-black/15 backdrop-blur-md border border-white/15 shadow-xl  mx-auto">
-        <div className="text-center space-y-6 p-4">
+        <div className="text-center space-y-6 p-3">
           <div className="space-y-2">
             <h2 className="font-bold text-xl text-white">
               Потрібна авторизація!
@@ -34,15 +35,21 @@ export function AuthRequiredDialog({ open }: AuthRequiredDialogProps) {
 
           <div className="space-y-3">
             <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3">
-              <p className="text-xs text-orange-200">
-                💡 <strong>Як зареєструватись:</strong>
-                <br />
-                1. Перейдіть в офіційний бот
-                <br />
-                2. Зареєструйтесь в програмі лояльності
-                <br />
-                3. Поверніться сюди та оновіть сторінку
-              </p>
+              <div className="flex items-start gap-2 text-orange-200">
+                <Icon
+                  icon="solar:lightbulb-bolt-bold"
+                  className="w-4 h-4 flex-shrink-0 mt-0.5"
+                />
+                <div className="text-xs text-left">
+                  <strong>Як зареєструватись:</strong>
+                  <br />
+                  1. Перейдіть в офіційний бот
+                  <br />
+                  2. Зареєструйтесь в програмі лояльності
+                  <br />
+                  3. Поверніться сюди та оновіть сторінку
+                </div>
+              </div>
             </div>
 
             <button

@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import Barcode from "react-barcode";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Wallet, Coffee } from "lucide-react";
+import { Icon } from "@iconify/react";
 import { Tilt } from "@/components/ui/tilt";
 import CoffeeProgress from "./CoffeeProgress";
-import { GlowEffect } from "@/components/ui/glow-effect";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import type { PromotionCounterDTO } from "@/api/tsymborApi";
 
 interface BarcodeCardProps {
   balance: number;
   freeCoffeeCount: number;
   barcodeValue: string;
   coffeeTillFree: number;
+  promotionCounters?: PromotionCounterDTO[];
 }
 
 const BarcodeCard: React.FC<BarcodeCardProps> = ({
@@ -20,10 +21,19 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
   balance,
   freeCoffeeCount,
   coffeeTillFree,
+  promotionCounters = [],
 }) => {
   const [barcodeLoaded, setBarcodeLoaded] = useState(false);
   const [normalizedValue, setNormalizedValue] = useState("");
   const { impactOccurred } = useHapticFeedback();
+
+  // Фильтруем активные счетчики по датам
+  const activeCounters = promotionCounters.filter((counter) => {
+    const now = new Date();
+    const startAt = new Date(counter.startAt);
+    const endAt = new Date(counter.endAt);
+    return counter.active && now >= startAt && now <= endAt;
+  });
 
   useEffect(() => {
     if (barcodeValue) {
@@ -49,17 +59,9 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
         isRevese={true}
         springOptions={{ stiffness: 200, damping: 30 }}
       >
-        <Card className="bg-black/15 backdrop-blur-md border border-white/5 shadow-xl ">
+        <Card className="bg-black/30 backdrop-blur-3xl border border-white/15 shadow-xl mx-3">
           <CardContent className="p-3">
             <div className="relative mb-4">
-              <GlowEffect
-                className="rounded-xl"
-                colors={["#1E293B", "#7C3AED", "#F59E0B", "#EF4444"]}
-                mode="colorShift"
-                blur="strong"
-                duration={7}
-              />
-
               <div className="relative z-10 bg-gradient-to-b from-gray-50 to-white/90 rounded-xl  overflow-hidden shadow-xl">
                 {normalizedValue && barcodeLoaded ? (
                   <div className="flex justify-center items-center">
@@ -92,15 +94,18 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <motion.div
-                className="bg-black/10 rounded-xl p-3 border border-white/5 text-center shadow-xl cursor-pointer"
+                className="bg-black/20 rounded-xl p-3 border border-white/15 text-center shadow-xl cursor-pointer"
                 whileHover={{ scale: 1.02, y: -3 }}
                 whileTap={{ scale: 0.98 }}
                 onTap={() => impactOccurred("light")}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               >
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Wallet className="w-4 h-4 text-white/90" />
-                  <span className="text-sm text-white/40 font-medium">
+                  <Icon
+                    icon="solar:wallet-bold"
+                    className="w-4 h-4 text-white/90"
+                  />
+                  <span className="text-sm text-white/50 font-medium">
                     Баланс
                   </span>
                 </div>
@@ -110,15 +115,18 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
               </motion.div>
 
               <motion.div
-                className="bg-black/10 rounded-xl p-3 border border-white/5 text-center shadow-xl cursor-pointer"
+                className="bg-black/20 rounded-xl p-3 border border-white/15 text-center shadow-xl cursor-pointer"
                 whileHover={{ scale: 1.02, y: -3 }}
                 whileTap={{ scale: 0.98 }}
                 onTap={() => impactOccurred("light")}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               >
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Coffee className="w-4 h-4 text-white/90" />
-                  <span className="text-sm text-white/40 font-medium">
+                  <Icon
+                    icon="solar:cup-hot-bold"
+                    className="w-4 h-4 text-white/90"
+                  />
+                  <span className="text-sm text-white/50 font-medium">
                     Кава
                   </span>
                 </div>
@@ -128,6 +136,35 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
                 </div>
               </motion.div>
             </motion.div>
+
+            {/* Promo counters grid */}
+            {activeCounters.length > 0 && (
+              <motion.div
+                className="grid grid-cols-2 gap-2 mb-3"
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                {activeCounters.map((counter) => (
+                  <motion.div
+                    key={counter.id}
+                    className="bg-black/20 rounded-xl p-3 border border-white/15 text-center shadow-xl cursor-pointer"
+                    whileHover={{ scale: 1.02, y: -3 }}
+                    whileTap={{ scale: 0.98 }}
+                    onTap={() => impactOccurred("light")}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  >
+                    <div className="text-xs text-white/50 font-medium mb-1 line-clamp-2">
+                      {counter.nameCounter}
+                    </div>
+                    <div className="font-extrabold text-xl text-white flex items-center justify-center gap-1">
+                      <span>{counter.count || 0}</span>
+                      <span className="font-medium text-sm">шт</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 25 }}
