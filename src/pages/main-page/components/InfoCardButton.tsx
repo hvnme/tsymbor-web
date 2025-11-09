@@ -42,7 +42,7 @@ export function InfoCardButton({
         stiffness: 350,
       }}
     >
-      <Card className="bg-black/20 mx-3 backdrop-blur-md border shadow-inner border-white/15 shadow-2xl">
+      <Card className="bg-black/20 mx-3 mt-3 backdrop-blur-md border shadow-inner border-white/15 shadow-2xl">
         <CardContent className="p-3">
           <div className="flex items-center space-x-3">
             <motion.div layoutId={`info-avatar-${id}`} className="relative">

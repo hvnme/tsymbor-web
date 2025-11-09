@@ -27,14 +27,6 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
   const [normalizedValue, setNormalizedValue] = useState("");
   const { impactOccurred } = useHapticFeedback();
 
-  // Фильтруем активные счетчики по датам
-  const activeCounters = promotionCounters.filter((counter) => {
-    const now = new Date();
-    const startAt = new Date(counter.startAt);
-    const endAt = new Date(counter.endAt);
-    return counter.active && now >= startAt && now <= endAt;
-  });
-
   useEffect(() => {
     if (barcodeValue) {
       const normalized = barcodeValue
@@ -138,16 +130,16 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
             </motion.div>
 
             {/* Promo counters grid */}
-            {activeCounters.length > 0 && (
+            {promotionCounters.length > 0 && (
               <motion.div
                 className="grid grid-cols-2 gap-2 mb-3"
                 initial={{ opacity: 0, y: 25 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                {activeCounters.map((counter) => (
+                {promotionCounters.map((counter, idx) => (
                   <motion.div
-                    key={counter.id}
+                    key={counter.nameCounter ?? idx}
                     className="bg-black/20 rounded-xl p-3 border border-white/15 text-center shadow-xl cursor-pointer"
                     whileHover={{ scale: 1.02, y: -3 }}
                     whileTap={{ scale: 0.98 }}
@@ -158,7 +150,7 @@ const BarcodeCard: React.FC<BarcodeCardProps> = ({
                       {counter.nameCounter}
                     </div>
                     <div className="font-extrabold text-xl text-white flex items-center justify-center gap-1">
-                      <span>{counter.count || 0}</span>
+                      <span>{counter.valueCounter || 0}</span>
                       <span className="font-medium text-sm">шт</span>
                     </div>
                   </motion.div>

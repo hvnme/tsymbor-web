@@ -57,13 +57,13 @@ const defaultColors = ["#00b4f0", "#001dad", "#f0e800"];
 export default function LiquidEther({
   mouseForce = 40,
   cursorSize = 150,
-  isViscous = true,
+  isViscous = false,
   viscous = 35,
   iterationsViscous = 100,
   iterationsPoisson = 100,
   dt = 0.016,
   BFECC = true,
-  resolution = 0.8,
+  resolution = 0.6,
   isBounce = false,
   colors = defaultColors,
   style = {},
@@ -191,6 +191,8 @@ export default function LiquidEther({
       smoothScrollPos = new THREE.Vector2(0, 0);
       isScrolling = false;
       scrollStartTime = 0;
+      lastScrollTrigger = 0;
+      scrollThrottle = 150;
       private _onMouseMove = this.onDocumentMouseMove.bind(this);
       private _onTouchStart = this.onDocumentTouchStart.bind(this);
       private _onTouchMove = this.onDocumentTouchMove.bind(this);
@@ -290,39 +292,45 @@ export default function LiquidEther({
         // Ініціалізуємо lastScrollY при першому виклику
         if (this.lastScrollY === 0 && currentScrollY !== 0) {
           this.lastScrollY = currentScrollY;
+          this.lastScrollTrigger = now;
           return;
         }
 
-        // Перевіряємо чи це початок нового скролу (більше 600мс після останнього)
-        const timeSinceLastScroll = now - this.scrollStartTime;
-        const isNewScrollSession = timeSinceLastScroll > 600;
+        const rawVelocity = currentScrollY - this.lastScrollY;
 
-        // Спрацьовуємо тільки якщо це нова сесія
-        if (isNewScrollSession) {
-          if (this.onInteract) this.onInteract();
-          this.isScrolling = true;
-          this.scrollStartTime = now;
-
-          const rawVelocity = currentScrollY - this.lastScrollY;
-
-          // Визначаємо напрямок скролу
-          const scrollDirection = rawVelocity > 0 ? 1 : -1;
-
-          // М'якіша інтенсивність
-          const intensity = 0.25;
-
-          // Генеруємо випадкову позицію для ефекту
-          const targetX = (Math.random() - 0.5) * 0.35;
-          const targetY = scrollDirection * intensity;
-
-          // Плавний старт з поточної позиції
-          this.scrollVelocity = intensity;
-          this.smoothScrollPos.x = this.smoothScrollPos.x * 0.5 + targetX * 0.5;
-          this.smoothScrollPos.y = this.smoothScrollPos.y * 0.5 + targetY * 0.5;
-
-          this.setNormalized(this.smoothScrollPos.x, this.smoothScrollPos.y);
-          this.hasUserControl = true;
+        // Ігноруємо дуже малі зміни
+        if (Math.abs(rawVelocity) < 5) {
+          this.lastScrollY = currentScrollY;
+          return;
         }
+
+        // Тротлінг: спрацьовуємо не частіше ніж раз в 150мс
+        const timeSinceLastTrigger = now - this.lastScrollTrigger;
+        if (timeSinceLastTrigger < this.scrollThrottle) {
+          this.lastScrollY = currentScrollY;
+          return;
+        }
+
+        if (this.onInteract) this.onInteract();
+        this.isScrolling = true;
+        this.scrollStartTime = now;
+        this.lastScrollTrigger = now;
+
+        // Визначаємо напрямок скролу
+        const scrollDirection = rawVelocity > 0 ? 1 : -1;
+
+        // М'якіша інтенсивність на основі швидкості скролу
+        const scrollSpeed = Math.min(Math.abs(rawVelocity) / 100, 1);
+        const intensity = 0.2 + scrollSpeed * 0.15;
+
+        // Генеруємо випадкову позицію для ефекту
+        const targetX = (Math.random() - 0.5) * 0.4;
+        const targetY = scrollDirection * intensity;
+
+        // Встановлюємо нову позицію
+        this.smoothScrollPos.set(targetX, targetY);
+        this.setNormalized(this.smoothScrollPos.x, this.smoothScrollPos.y);
+        this.hasUserControl = true;
 
         this.lastScrollY = currentScrollY;
 
@@ -332,7 +340,7 @@ export default function LiquidEther({
           this.isScrolling = false;
           this.scrollVelocity = 0;
           this.scrollMomentum = 0;
-        }, 600);
+        }, 400);
       }
       update() {
         if (this.takeoverActive) {

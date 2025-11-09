@@ -13,8 +13,7 @@ import { PromotionDialog } from "./components/PromotionDialog";
 import { tsymborApi } from "@/api/tsymborApi";
 import type {
   UserDto,
-  PromotionDTO,
-  PromotionCounterDTO,
+  PromotionDTO
 } from "@/api/tsymborApi";
 import LiquidEther from "@/components/LiquidEther";
 import AnimatedContent from "@/components/AnimatedContent";
@@ -29,9 +28,8 @@ const StoreApp = () => {
     useState<PromotionDTO | null>(null);
   const [userInfo, setUserInfo] = useState<UserDto | null>(null);
   const [promotions, setPromotions] = useState<PromotionDTO[]>([]);
-  const [promotionCounters, setPromotionCounters] = useState<
-    PromotionCounterDTO[]
-  >([]);
+
+
   const [isLoading, setIsLoading] = useState(true);
   const [isUserNotFound, setIsUserNotFound] = useState(false);
 
@@ -61,11 +59,10 @@ const StoreApp = () => {
       }
 
       try {
-        const [userResponse, promotionsResponse, countersResponse] =
+        const [userResponse, promotionsResponse] =
           await Promise.all([
             tsymborApi.getUserInfo(Number(chatId)),
             tsymborApi.getActivePromotions(),
-            tsymborApi.getActivePromotionCounters(),
           ]);
 
         if (userResponse === null) {
@@ -78,12 +75,10 @@ const StoreApp = () => {
         }
 
         setPromotions(promotionsResponse);
-        setPromotionCounters(countersResponse);
       } catch (error) {
         console.error("Ошибка загрузки данных:", error);
         setIsUserNotFound(true);
       } finally {
-        // Задержка для отработки анимации выхода
         setTimeout(() => {
           setIsLoading(false);
         }, 300);
@@ -108,12 +103,12 @@ const StoreApp = () => {
 
   return (
     <>
-      {/* Background Layer - Единый для всех состояний */}
       <div className="fixed inset-0 bg-blue-800">
         <LiquidEther
-          isViscous={true}
-          viscous={isLoading ? 100 : 40}
+          isViscous={false}
+          viscous={35}
           autoDemo={true}
+          autoResumeDelay={1000}
         />
       </div>
 
@@ -167,10 +162,8 @@ const StoreApp = () => {
         </AnimatePresence>
       )}
 
-      {/* Auth Required Dialog */}
       {isUserNotFound && !isLoading && <AuthRequiredDialog open={true} />}
 
-      {/* Main Content */}
       {!isLoading && !isUserNotFound && (
         <div
           className="relative min-h-screen overflow-y-auto"
@@ -238,7 +231,7 @@ const StoreApp = () => {
                   freeCoffeeCount={userInfo?.freeCoffeeCount || 0}
                   barcodeValue={userInfo?.barcode || ""}
                   coffeeTillFree={userInfo?.coffeeTillFree || 0}
-                  promotionCounters={promotionCounters}
+                  promotionCounters={userInfo?.promotionCounters}
                 />
               </div>
 
